@@ -15,7 +15,7 @@ def sign_up():
         data = json.loads(request.data)
         username = data['username']
         password = data['password']
-        if(same_username(username)):
+        if same_username(username):
             return {
                 "success": False,
                 "message": "Username, " + username + " has already taken. Please try another username"

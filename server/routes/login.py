@@ -22,7 +22,7 @@ def login():
         username = data['username']
         password = data['password']
 
-        if(same_username(username) is False or compare_plain_hash(get_pwd(username),password)):
+        if (same_username(username) is False or compare_plain_hash(get_pwd(username),password)):
             return {
                 "success": False,
                 "message": "Username does not exist or password does not match username. Please try again."
