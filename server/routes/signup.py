@@ -22,7 +22,7 @@ def sign_up():
             }
         
         user = User(username=username)
-        login = Login(username=username, password=password)
+        login = Login(username=username, password=hash_salt_password(password))
         db.session.add(user)
         db.session.add(login)
         db.session.commit()
