@@ -54,26 +54,26 @@ function Login() {
 
   return (
     <div className="LoginBox">
-        <form className="login-form">
-          <div className="form-label">Username</div>
-          <input
-            type="text"
-            name="username"
-            className="login-username"
-            defaultValue={login.username}
-            onChange={HandleInput}
-            autoComplete="off"
-          />
-          <div className="form-label">Password</div>
-          <input
-            type="text"
-            name="password"
-            className="login-password"
-            defaultValue={login.password}
-            onChange={HandleInput}
-            autoComplete="off"
-          />
-        </form>
+      <form className="login-form">
+        <div className="form-label">Username</div>
+        <input
+          type="text"
+          name="username"
+          className="login-username"
+          defaultValue={login.username}
+          onChange={HandleInput}
+          autoComplete="off"
+        />
+        <div className="form-label">Password</div>
+        <input
+          type="text"
+          name="password"
+          className="login-password"
+          defaultValue={login.password}
+          onChange={HandleInput}
+          autoComplete="off"
+        />
+      </form>
       <button type="button" value="Login" onClick={HandleLogin}>Login</button>
       <button type="button" value="Signup" onClick={ToSignUp}>Sign Up</button>
       <div>{loginMessage}</div>
