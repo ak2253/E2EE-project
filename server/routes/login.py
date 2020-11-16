@@ -13,7 +13,7 @@ def get_pwd(username):
 
 def get_id(username):
     query = db.session.query(User).filter(User.username == username).one()
-    return query
+    return query.id
 
 @app.route("/api/login", methods=["POST"])
 def login():
@@ -22,7 +22,7 @@ def login():
         username = data['username']
         password = data['password']
 
-        if (same_username(username) is False or compare_plain_hash(get_pwd(username),password)):
+        if (same_username(username) is False or compare_plain_hash(get_pwd(username),password) is False):
             return {
                 "success": False,
                 "message": "Username does not exist or password does not match username. Please try again."
@@ -30,6 +30,6 @@ def login():
         
         session["id"] = get_id(username)
 
-        return {"success": True, "user_id": session["user_id"]}
+        return {"success": True, "user_id": session["id"]}
     except json.decoder.JSONDecodeError:
         return {"error": "Malformed request"}, 400
