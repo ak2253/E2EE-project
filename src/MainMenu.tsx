@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import UserList from './UserList';
+import Messages from './Messages';
 
 function MainMenu() {
-  return <div />;
+  const [messageWith, setMessageWith] = useState<String>('');
+  return (
+    <div>
+      <UserList setMessageWith={setMessageWith} />
+      <Messages messageWith={messageWith} />
+    </div>
+  );
 }
 
 export default MainMenu;
