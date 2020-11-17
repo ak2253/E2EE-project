@@ -5,7 +5,7 @@ import flask
 import flask_sqlalchemy
 import flask_socketio
 
-app = flask.Flask(__name__, static_folder="../build/static", template_folder="../build/index.html")
+app = flask.Flask(__name__, static_folder="../build/static", template_folder="../build")
 
 load_dotenv()
 app.secret_key = os.getenv("SECRET_KEY", "DEFAULT_KEY")
