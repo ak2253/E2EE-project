@@ -1,4 +1,5 @@
 import React from 'react';
+import './Messages.css';
 
 import TextBox from './TextBox';
 
@@ -9,7 +10,7 @@ interface Props {
 function Messages(props: Props) {
   const { messageWith } = props;
   return (
-    <div>
+    <div className="message-box">
       <TextBox messageTo={messageWith} />
     </div>
   );

@@ -1,6 +1,12 @@
+.user-list {
+    display: block;
+    width: 250px;
+    height: 100%;
+    float: left;
+}
 .user-contact {
     display: block;
-    width: 200px;
+    width: 100%;
     height: auto;
     border: 1px solid black;
 }

@@ -16,6 +16,7 @@ function sendMessage(value, sendTo) {
   })
     .then((res) => res.json())
     .then(() => {
+      // get message history
       console.log('success');
     })
     .catch((error) => {
