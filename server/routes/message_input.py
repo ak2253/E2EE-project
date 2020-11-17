@@ -10,7 +10,7 @@ def get_username(id):
     return query.username
 
 @app.route("/api/message/input", methods=["POST"])
-def addMessage():
+def add_message():
     try:
         data = json.loads(request.data)
         user_to = data['to']
