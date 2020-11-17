@@ -1,42 +1,47 @@
 import React, { useState } from 'react';
 
+type Message = {
+  id: number,
+  username_from: String,
+  message: String
+};
+
 interface Props {
   messageTo: String;
-}
-
-function sendMessage(value, sendTo) {
-  fetch('/api/message/input', {
-    method: 'POST',
-    headers: new Headers({ 'content-type': 'application/json' }),
-    mode: 'no-cors',
-    body: JSON.stringify({
-      to: sendTo,
-      message: value,
-    }),
-  })
-    .then((res) => res.json())
-    .then(() => {
-      // get message history
-      console.log('success');
-    })
-    .catch((error) => {
-      <div className="login-error-box">
-        Malformed message was recieved:
-        {error}
-      </div>;
-    });
+  setMessages: (messages: Array<Message>) => void;
 }
 
 function TextBox(props: Props) {
-  const { messageTo } = props;
+  const { messageTo, setMessages } = props;
   const [message, setMessage] = useState('');
+  function sendMessage(value) {
+    fetch('/api/message/input', {
+      method: 'POST',
+      headers: new Headers({ 'content-type': 'application/json' }),
+      mode: 'no-cors',
+      body: JSON.stringify({
+        to: messageTo,
+        message: value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setMessages(data.messages);
+      })
+      .catch((error) => {
+        <div className="login-error-box">
+          Malformed message was recieved:
+          {error}
+        </div>;
+      });
+  }
   function handleButton() {
-    sendMessage(message, messageTo);
+    sendMessage(message);
     setMessage('');
   }
   function handleKeyUp(event) {
     if (event.key === 'Enter') {
-      sendMessage(message, messageTo);
+      sendMessage(message);
       setMessage('');
     }
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Messages.css';
 
 import TextBox from './TextBox';
@@ -14,10 +14,11 @@ interface Props {
 }
 
 function Messages(props: Props) {
-  const { messageWith } = props;
+  const [currentWith, setCurrentWith] = useState<String>('');
   const [messages, setMessages] = useState<Array<Message>>([]);
-
-  useEffect(() => {
+  const { messageWith } = props;
+  if (messageWith !== currentWith && messageWith !== '') {
+    setCurrentWith(messageWith);
     fetch('/api/message', {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
@@ -28,7 +29,11 @@ function Messages(props: Props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setMessages(data.messages);
+        if (data.success === false) {
+          setMessages([]);
+        } else {
+          setMessages(data.messages);
+        }
       })
       .catch((error) => {
         <div className="login-error-box">
@@ -36,17 +41,16 @@ function Messages(props: Props) {
           {error}
         </div>;
       });
-  }, []);
-
+  }
   return (
     <div className="message-box">
       {messages.map((row, index) => (
         <div className="message-section" key={row.id} tabIndex={index}>
-          <div className="message-username">{row.from}</div>
+          <div className="message-username">{row.username_from}</div>
           <div className="message-content">{row.message}</div>
         </div>
       ))}
-      <TextBox messageTo={messageWith} />
+      <TextBox messageTo={messageWith} setMessages={setMessages} />
     </div>
   );
 }
