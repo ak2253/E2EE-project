@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, Redirect,
+  BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 
 import './App.css';
@@ -12,13 +12,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <Redirect to="/login" />
-          )}
-        />
         <Switch>
           <Route path="/login">
             <Login />
