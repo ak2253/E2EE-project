@@ -7,7 +7,8 @@ def query_table(table):
     if table == 1:
         rows = db.session.query(Login).all()
         for row in rows:
-            print(row.username, row.password)
+            print("username:", row.username, "\npassword:", row.password)
+            print("----------")
     elif table == 2:
         rows = db.session.query(Message).all()
         for row in rows:
