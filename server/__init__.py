@@ -15,6 +15,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = flask_sqlalchemy.SQLAlchemy(app)
 
-import server.models
-import server.routes
-import server.utils
+# import server.models
+# import server.routes
+# import server.utils
