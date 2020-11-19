@@ -7,7 +7,7 @@ migrate = Migrate(app, db)
 
 if __name__ == "__main__":
     app.run(
-        host=getenv("IP", "0.0.0.0"),
-        port=int(getenv("PORT", "80")),
-        debug=getenv("DEBUG", False),
+        host=os.getenv("IP", "0.0.0.0"),
+        port=int(os.getenv("PORT", 80)),
+        debug=os.getenv("DEBUG", False),
     )
