@@ -1,15 +1,20 @@
 import json
 
-from flask import request, session
-from server import app, db
+from flask import Blueprint, request, session
+from server import db
 from server.models.user import User
 from server.models.login import Login
 from server.utils.hash_salt import hash_salt_password
 
+signup_route = Blueprint(
+    "signup_route",
+    __name__,
+)
+
 def same_username(username):
     return User.query.filter_by(username=username).scalar() is not None
 
-@app.route("/api/signup", methods=["POST"])
+@signup_route.route("/api/signup", methods=["POST"])
 def sign_up():
     try:
         data = json.loads(request.data)

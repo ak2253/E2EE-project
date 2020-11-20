@@ -1,12 +1,17 @@
 import json
 
-from server import app, db
-from flask import request, session
+from server import db
+from flask import Blueprint, request, session
 from server.models.message import Message
 from server.routes.message_input import get_username, get_messages_history
 from sqlalchemy.orm.exc import NoResultFound
 
-@app.route("/api/message", methods=["POST"])
+get_messages_route = Blueprint(
+    "get_message_route",
+    __name__,
+)
+
+@get_messages_route.route("/api/message", methods=["POST"])
 def get_messages():
     try:
         data = json.loads(request.data)

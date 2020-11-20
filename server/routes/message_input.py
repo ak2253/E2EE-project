@@ -1,9 +1,14 @@
 import json
 
-from server import app, db
-from flask import request, session
+from server import db
+from flask import Blueprint, request, session
 from server.models.user import User
 from server.models.message import Message
+
+message_input_route = Blueprint(
+    "message_input_route",
+    __name__,
+)
 
 def get_username(id):
     query = db.session.query(User).filter(User.id == id).one()
@@ -22,7 +27,7 @@ def get_messages_history(username1, username2):
             })
     return filtered_query
 
-@app.route("/api/message/input", methods=["POST"])
+@message_input_route.route("/api/message/input", methods=["POST"])
 def add_message():
     try:
         data = json.loads(request.data)

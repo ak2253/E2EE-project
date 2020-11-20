@@ -1,11 +1,16 @@
 import json
 
-from flask import request, session
-from server import app, db
+from flask import Blueprint, request, session
+from server import db
 from server.models.user import User
 from server.models.login import Login
 from server.utils.hash_salt import compare_plain_hash
 from server.routes.signup import same_username
+
+login_route = Blueprint(
+    "login_route",
+    __name__,
+)
 
 def get_pwd(username):
     query = db.session.query(Login).filter(Login.username == username).one()
@@ -15,7 +20,7 @@ def get_id(username):
     query = db.session.query(User).filter(User.username == username).one()
     return query.id
 
-@app.route("/api/login", methods=["POST"])
+@login_route.route("/api/login", methods=["POST"])
 def login():
     try:
         data = json.loads(request.data)

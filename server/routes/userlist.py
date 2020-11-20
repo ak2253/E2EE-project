@@ -1,14 +1,19 @@
 from flask import session
 from sqlalchemy.orm.exc import NoResultFound
-from flask import session
-from server import app, db
+from flask import Blueprint, session
+from server import db
 from server.models.user import User
+
+userlist_route = Blueprint(
+    "userlist_route",
+    __name__,
+)
 
 def get_all_users():
     rows = db.session.query(User).all()
     return rows
 
-@app.route("/api/userlist")
+@userlist_route.route("/api/userlist")
 def get_user_list():
     try:
         users = get_all_users()
