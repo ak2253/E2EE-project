@@ -26,7 +26,7 @@ def drop_table(table):
     else:
         User.query.delete()
 
-# query_table(1)
+# query_table(2)
 # drop_table(1)
 #  
 # 1 for login

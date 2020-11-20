@@ -22,7 +22,8 @@ db = flask_sqlalchemy.SQLAlchemy(app)
 with app.app_context():
     import server.routes as route
     app.register_blueprint(route.main_route)
-
-import server.models
-import server.routes
-import server.utils
+    app.register_blueprint(route.signup_route)
+    app.register_blueprint(route.login_route)
+    app.register_blueprint(route.userlist_route)
+    app.register_blueprint(route.message_input_route)
+    app.register_blueprint(route.get_messages_route)
