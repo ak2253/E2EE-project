@@ -5,7 +5,7 @@ import flask
 
 app = flask.Flask(__name__, static_folder="../build/static", template_folder="../build")
 
-#load_dotenv()
+load_dotenv()
 #app.secret_key = os.getenv("SECRET_KEY", "DEFAULT_KEY")
 #app.config["SESSION_TYPE"] = "filesystem"
 #DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///database.db")
