@@ -100,7 +100,7 @@ function Signup() {
         />
         <div className="form-label">Password</div>
         <input
-          type="text"
+          type="password"
           name="password1"
           className="login-password"
           defaultValue={signUp.password1}
@@ -109,7 +109,7 @@ function Signup() {
         />
         <div className="form-label">Type password again</div>
         <input
-          type="text"
+          type="password"
           name="password2"
           className="login-password"
           defaultValue={signUp.password2}

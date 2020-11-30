@@ -66,7 +66,7 @@ function Login() {
         />
         <div className="form-label">Password</div>
         <input
-          type="text"
+          type="password"
           name="password"
           className="login-password"
           defaultValue={login.password}
