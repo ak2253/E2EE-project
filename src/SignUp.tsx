@@ -27,6 +27,7 @@ function Signup() {
     } else if (tpassword1 !== tpassword2) {
       setSignUpMessage('Passwords do not match.');
     } else {
+      // hash and salt password
       fetch('/api/signup', {
         method: 'POST',
         headers: new Headers({ 'content-type': 'application/json' }),
@@ -48,6 +49,7 @@ function Signup() {
             {error}
           </div>;
         });
+      history.push('/mainmenu');
     }
   }
 

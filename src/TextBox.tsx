@@ -15,6 +15,7 @@ function TextBox(props: Props) {
   const { messageTo, setMessages } = props;
   const [message, setMessage] = useState('');
   function sendMessage(value) {
+    // encrypt message
     fetch('/api/message/input', {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
