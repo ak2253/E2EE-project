@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import forge from 'node-forge';
 
 import './SignUp.css';
 
@@ -11,6 +12,38 @@ function Signup() {
     password1: '',
     password2: '',
   });
+  const { rsa } = forge.pki;
+
+  function SetUpKeys(password) {
+    rsa.generateKeyPair({ bits: 1024, workers: 2 }, (err, keypair) => {
+      if (err === null) {
+        const pemPublic = forge.pki.publicKeyToPem(keypair.publicKey);
+        const encryptedPemPrivate = forge.pki.encryptRsaPrivateKey(keypair.privateKey, password);
+        fetch('/api/insertkey', {
+          method: 'POST',
+          headers: new Headers({ 'content-type': 'application/json' }),
+          mode: 'no-cors',
+          body: JSON.stringify({
+            public: pemPublic,
+            private: encryptedPemPrivate,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              history.push('/mainmenu');
+            } else setSignUpMessage(data.message);
+          })
+          .catch((error) => {
+            <div className="signup-error-box">
+              Malformed message was recieved:
+              {error}
+            </div>;
+          });
+      }
+    });
+  }
+
   function HandleSignUp() {
     const tusername = signUp.username.trim();
     const tpassword1 = signUp.password1.trim();
@@ -39,7 +72,7 @@ function Signup() {
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            history.push('/mainmenu');
+            SetUpKeys(tpassword1);
           } else setSignUpMessage(data.message);
         })
         .catch((error) => {
