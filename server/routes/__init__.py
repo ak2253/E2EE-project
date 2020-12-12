@@ -5,6 +5,7 @@ from server.routes.login import login_route
 from server.routes.userlist import userlist_route
 from server.routes.message_input import message_input_route
 from server.routes.get_messages import get_messages_route
+from server.routes.key import key_route
 
 main_route = Blueprint (
     "main_route",

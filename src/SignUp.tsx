@@ -51,7 +51,19 @@ function Signup() {
             .then((res) => res.json())
             .then((data) => {
               if (data.success) {
-                history.push('/mainmenu');
+                const privatePem = forge.pki.privateKeyToPem(keypair.privateKey);
+                fetch('/api/localkey', {
+                  method: 'POST',
+                  headers: new Headers({ 'content-type': 'application/json' }),
+                  mode: 'no-cors',
+                  body: JSON.stringify({ private: privatePem }),
+                })
+                  .then((nRes) => nRes.json())
+                  .then((nData) => {
+                    if (nData.success) {
+                      history.push('/mainmenu');
+                    }
+                  });
               } else setSignUpMessage(data.message);
             })
             .catch((error) => {

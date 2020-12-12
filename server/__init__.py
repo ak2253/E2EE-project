@@ -27,3 +27,4 @@ with app.app_context():
     app.register_blueprint(route.userlist_route)
     app.register_blueprint(route.message_input_route)
     app.register_blueprint(route.get_messages_route)
+    app.register_blueprint(route.key_route)
