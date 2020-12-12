@@ -14,36 +14,6 @@ function Signup() {
   });
   const { rsa } = forge.pki;
 
-  function SetUpKeys(password) {
-    rsa.generateKeyPair({ bits: 1024, workers: 2 }, (err, keypair) => {
-      if (err === null) {
-        const pemPublic = forge.pki.publicKeyToPem(keypair.publicKey);
-        const encryptedPemPrivate = forge.pki.encryptRsaPrivateKey(keypair.privateKey, password);
-        fetch('/api/insertkey', {
-          method: 'POST',
-          headers: new Headers({ 'content-type': 'application/json' }),
-          mode: 'no-cors',
-          body: JSON.stringify({
-            public: pemPublic,
-            private: encryptedPemPrivate,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              history.push('/mainmenu');
-            } else setSignUpMessage(data.message);
-          })
-          .catch((error) => {
-            <div className="signup-error-box">
-              Malformed message was recieved:
-              {error}
-            </div>;
-          });
-      }
-    });
-  }
-
   function HandleSignUp() {
     const tusername = signUp.username.trim();
     const tpassword1 = signUp.password1.trim();
@@ -60,28 +30,38 @@ function Signup() {
     } else if (tpassword1 !== tpassword2) {
       setSignUpMessage('Passwords do not match.');
     } else {
-      fetch('/api/signup', {
-        method: 'POST',
-        headers: new Headers({ 'content-type': 'application/json' }),
-        mode: 'no-cors',
-        body: JSON.stringify({
-          username: tusername,
-          password: tpassword1,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            SetUpKeys(tpassword1);
-          } else setSignUpMessage(data.message);
-        })
-        .catch((error) => {
-          <div className="signup-error-box">
-            Malformed message was recieved:
-            {error}
-          </div>;
-        });
-      history.push('/mainmenu');
+      rsa.generateKeyPair({ bits: 1024, workers: 2 }, (err, keypair) => {
+        if (err === null) {
+          const pemPublic = forge.pki.publicKeyToPem(keypair.publicKey);
+          const encryptedPemPrivate = forge.pki.encryptRsaPrivateKey(
+            keypair.privateKey,
+            tpassword1,
+          );
+          fetch('/api/signup', {
+            method: 'POST',
+            headers: new Headers({ 'content-type': 'application/json' }),
+            mode: 'no-cors',
+            body: JSON.stringify({
+              username: tusername,
+              password: tpassword1,
+              public: pemPublic,
+              private: encryptedPemPrivate,
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.success) {
+                history.push('/mainmenu');
+              } else setSignUpMessage(data.message);
+            })
+            .catch((error) => {
+              <div className="signup-error-box">
+                Malformed message was recieved:
+                {error}
+              </div>;
+            });
+        }
+      });
     }
   }
 
