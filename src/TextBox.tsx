@@ -42,13 +42,22 @@ function TextBox(props: Props) {
         })
           .then((nRes) => nRes.json())
           .then((nData) => {
-            setMessages(nData.messages);
-          })
-          .catch((error) => {
-            <div className="login-error-box">
-              Malformed message was recieved:
-              {error}
-            </div>;
+            fetch('/api/getkey')
+              .then((keyRes) => keyRes.json())
+              .then((keyData) => {
+                if (data.success) {
+                  const privateEncrypted = forge.pki.privateKeyFromPem(keyData.private);
+                  const tarray: Message[] = [];
+                  for (let i = 0; i < nData.messages.length; i += 1) {
+                    tarray.push({
+                      id: nData.messages[i].id,
+                      username_from: nData.messages[i].username_from,
+                      message: privateEncrypted.decrypt(nData.messages[i].message),
+                    });
+                  }
+                  setMessages(tarray);
+                }
+              });
           });
       })
       .catch((error) => {
