@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './UserList.css';
+import './Styles.css';
+import { Paper } from '@material-ui/core';
 
 type User = {
   id: number,
@@ -25,7 +26,7 @@ function UserList(props: Props) {
       .catch((error) => (<div className="user-list">{error}</div>));
   }, []);
   return (
-    <div className="user-list">
+    <Paper className="user-list" style={{ background: 'ghostwhite' }}>
       {users.map((row, index) => (
         <div
           role="button"
@@ -38,7 +39,7 @@ function UserList(props: Props) {
           <div>{row.username}</div>
         </div>
       ))}
-    </div>
+    </Paper>
   );
 }
 

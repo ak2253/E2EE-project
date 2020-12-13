@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import UserList from './UserList';
 import Messages from './Messages';
 
+import './Styles.css';
+
 function MainMenu() {
   const [messageWith, setMessageWith] = useState<String>('');
 
@@ -10,9 +12,13 @@ function MainMenu() {
     return <UserList setMessageWith={setMessageWith} />;
   }
   return (
-    <div>
-      <UserList setMessageWith={setMessageWith} />
-      <Messages messageWith={messageWith} />
+    <div className="main-menu">
+      <div className="user-box">
+        <UserList setMessageWith={setMessageWith} />
+      </div>
+      <div className="message-box">
+        <Messages messageWith={messageWith} />
+      </div>
     </div>
   );
 }

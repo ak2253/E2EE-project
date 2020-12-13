@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import forge from 'node-forge';
-import './Messages.css';
+import { Paper, Typography } from '@material-ui/core';
+
+import './Styles.css';
 
 import TextBox from './TextBox';
 
@@ -68,16 +70,21 @@ function Messages(props: Props) {
       });
   }
   return (
-    <div className="message-box">
+    <Paper className="messages">
+      <Typography variant="h6">{messageWith}</Typography>
+      <hr />
       {messages.map((row, index) => (
         <div className="message-section" key={row.id} tabIndex={index}>
-          <div className="message-username">{row.username_from}</div>
+          <div className="message-username">
+            {row.username_from}
+            :
+          </div>
           <div className="message-content">{row.message}</div>
         </div>
       ))}
       <TextBox messageTo={messageWith} setMessages={setMessages} />
       <div>{eMessage}</div>
-    </div>
+    </Paper>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import forge from 'node-forge';
 
+import { Button, Paper, TextField } from '@material-ui/core';
 import './SignUp.css';
 
 function Signup() {
@@ -13,6 +14,10 @@ function Signup() {
     password2: '',
   });
   const { rsa } = forge.pki;
+
+  function HandleBack() {
+    history.push('/login');
+  }
 
   function HandleSignUp() {
     const tusername = signUp.username.trim();
@@ -113,10 +118,10 @@ function Signup() {
   }
 
   return (
-    <div className="LoginBox">
+    <Paper className="login-signup">
       <form className="login-form">
         <div className="form-label">Username</div>
-        <input
+        <TextField
           type="text"
           name="username"
           className="login-username"
@@ -125,7 +130,7 @@ function Signup() {
           autoComplete="off"
         />
         <div className="form-label">Password</div>
-        <input
+        <TextField
           type="password"
           name="password1"
           className="login-password"
@@ -134,7 +139,7 @@ function Signup() {
           autoComplete="off"
         />
         <div className="form-label">Type password again</div>
-        <input
+        <TextField
           type="password"
           name="password2"
           className="login-password"
@@ -143,13 +148,16 @@ function Signup() {
           autoComplete="off"
         />
       </form>
-      <li id="requirement1">At least 10 characters</li>
-      <li id="requirement2">At least 1 lowercase letter</li>
-      <li id="requirement3">At least 1 capital letter</li>
-      <li id="requirement4">At least 1 digit</li>
+      <div className="bullet-list">
+        <li id="requirement1">At least 10 characters</li>
+        <li id="requirement2">At least 1 lowercase letter</li>
+        <li id="requirement3">At least 1 capital letter</li>
+        <li id="requirement4">At least 1 digit</li>
+      </div>
       <div>{signUpMessage}</div>
-      <button type="button" value="Signup" onClick={HandleSignUp}>Sign Up</button>
-    </div>
+      <Button type="button" value="Back" onClick={HandleBack}>Back</Button>
+      <Button type="button" value="Signup" onClick={HandleSignUp}>Sign Up</Button>
+    </Paper>
   );
 }
 

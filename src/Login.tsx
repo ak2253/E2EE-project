@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import forge from 'node-forge';
 
+import { Button, Paper, TextField } from '@material-ui/core';
+import './Styles.css';
+
 function Login() {
   const history = useHistory();
   const [loginMessage, setLoginMessage] = useState('');
@@ -67,10 +70,10 @@ function Login() {
   }
 
   return (
-    <div className="LoginBox">
+    <Paper className="login-signup">
       <form className="login-form">
         <div className="form-label">Username</div>
-        <input
+        <TextField
           type="text"
           name="username"
           className="login-username"
@@ -79,7 +82,7 @@ function Login() {
           autoComplete="off"
         />
         <div className="form-label">Password</div>
-        <input
+        <TextField
           type="password"
           name="password"
           className="login-password"
@@ -88,10 +91,10 @@ function Login() {
           autoComplete="off"
         />
       </form>
-      <button type="button" value="Login" onClick={HandleLogin}>Login</button>
-      <button type="button" value="Signup" onClick={ToSignUp}>Sign Up</button>
+      <Button type="button" value="Login" onClick={HandleLogin}>Login</Button>
+      <Button type="button" value="Signup" onClick={ToSignUp}>Sign Up</Button>
       <div>{loginMessage}</div>
-    </div>
+    </Paper>
   );
 }
 
