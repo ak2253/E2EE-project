@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
+import './Styles.css';
 import Login from './Login';
 import SignUp from './SignUp';
 import MainMenu from './MainMenu';

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import forge from 'node-forge';
 
+import { Button, TextField } from '@material-ui/core';
+
 type Message = {
   id: number,
   username_from: String,
@@ -83,10 +85,10 @@ function TextBox(props: Props) {
   }
   return (
     <div className="message-menu">
-      <input type="text" className="message-input" value={message} onKeyUp={handleKeyUp} onChange={handleInput} />
-      <button type="button" className="message-button" value="Enter" onClick={handleButton}>
+      <TextField type="text" className="message-input" value={message} onKeyUp={handleKeyUp} onChange={handleInput} />
+      <Button type="button" className="message-button" value="Enter" onClick={handleButton}>
         Enter
-      </button>
+      </Button>
     </div>
   );
 }
