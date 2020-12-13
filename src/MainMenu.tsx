@@ -9,7 +9,11 @@ function MainMenu() {
   const [messageWith, setMessageWith] = useState<String>('');
 
   if (messageWith === '') {
-    return <UserList setMessageWith={setMessageWith} />;
+    return (
+      <div className="user-box">
+        <UserList setMessageWith={setMessageWith} />
+      </div>
+    );
   }
   return (
     <div className="main-menu">
