@@ -4,6 +4,7 @@ from flask import Blueprint, request, session
 from server import db
 from server.models.user import User
 from server.models.login import Login
+from server.models.key import Key
 from server.utils.hash_salt import hash_salt_password
 
 signup_route = Blueprint(
@@ -20,6 +21,8 @@ def sign_up():
         data = json.loads(request.data)
         username = data['username']
         password = data['password']
+        publicPEM = data['public']
+        privatePEM= data['private']
         if same_username(username):
             return {
                 "success": False,
@@ -28,10 +31,19 @@ def sign_up():
         
         user = User(username=username)
         login = Login(username=username, password=hash_salt_password(password))
+
         db.session.add(user)
         db.session.add(login)
         db.session.commit()
         
+        key = Key(
+            user_id = user.id,
+            public = publicPEM,
+            private = privatePEM
+        )
+        db.session.add(key)
+        db.session.commit()
+
         session["id"] = user.id
 
         return {"success": True}

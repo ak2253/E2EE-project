@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import forge from 'node-forge';
 
 function Login() {
   const history = useHistory();
@@ -32,7 +33,20 @@ function Login() {
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            history.push('/mainmenu');
+            const privateKey = forge.pki.decryptRsaPrivateKey(data.encryptedKey, tpassword);
+            const privatePem = forge.pki.privateKeyToPem(privateKey);
+            fetch('/api/localkey', {
+              method: 'POST',
+              headers: new Headers({ 'content-type': 'application/json' }),
+              mode: 'no-cors',
+              body: JSON.stringify({ private: privatePem }),
+            })
+              .then((nRes) => nRes.json())
+              .then((nData) => {
+                if (nData.success) {
+                  history.push('/mainmenu');
+                }
+              });
           } else setLoginMessage(data.message);
         })
         .catch((error) => {
@@ -66,7 +80,7 @@ function Login() {
         />
         <div className="form-label">Password</div>
         <input
-          type="text"
+          type="password"
           name="password"
           className="login-password"
           defaultValue={login.password}
