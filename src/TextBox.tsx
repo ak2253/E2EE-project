@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import forge from 'node-forge';
 
 type Message = {
   id: number,
@@ -15,19 +16,40 @@ function TextBox(props: Props) {
   const { messageTo, setMessages } = props;
   const [message, setMessage] = useState('');
   function sendMessage(value) {
-    // encrypt message
-    fetch('/api/message/input', {
+    fetch('/api/getpublic', {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
       mode: 'no-cors',
       body: JSON.stringify({
         to: messageTo,
-        message: value,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setMessages(data.messages);
+        const publicKeySelf = forge.pki.publicKeyFromPem(data.public_key_self);
+        const publicKeyUser = forge.pki.publicKeyFromPem(data.public_key_user);
+        const encryptedSelf = publicKeySelf.encrypt(value);
+        const encryptedUser = publicKeyUser.encrypt(value);
+        fetch('/api/message/input', {
+          method: 'POST',
+          headers: new Headers({ 'content-type': 'application/json' }),
+          mode: 'no-cors',
+          body: JSON.stringify({
+            to: messageTo,
+            message_self: encryptedSelf,
+            message_to: encryptedUser,
+          }),
+        })
+          .then((nRes) => nRes.json())
+          .then((nData) => {
+            setMessages(nData.messages);
+          })
+          .catch((error) => {
+            <div className="login-error-box">
+              Malformed message was recieved:
+              {error}
+            </div>;
+          });
       })
       .catch((error) => {
         <div className="login-error-box">

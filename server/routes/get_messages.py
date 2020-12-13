@@ -19,7 +19,7 @@ def get_messages():
         username2 = get_username(session["id"])
         message_history = []
         try:
-            message_history = get_messages_history(username1, username2)
+            message_history = get_messages_history(username2, username1, username2)
         except NoResultFound:
             return {
                 "success": False,
