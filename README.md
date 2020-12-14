@@ -11,6 +11,7 @@ git clone https://github.com/ak2253/E2EE-project
 ```
 npm install
 pip install -r requirements.txt
+flask db upgrade
 ```
 5.  Create an account on Heroku using the following [link](https://dashboard.heroku.com/).
 6. After creating an account, you should be at the app menu. Click on the new button towards the top right and click `create new app`. Name it what ever you want.
